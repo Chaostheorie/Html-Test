@@ -15,6 +15,7 @@ class Config(object):
     # File-based SQLite3 database
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app/static/database/VKS_main.sqlite") or \
         "sqlite:///" + os.path.join(basedir, "VKS_Fallback.sqlite")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Flask-User settings
     USER_APP_NAME = "Communicatio"
