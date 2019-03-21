@@ -1,52 +1,35 @@
-from app import app, db, db_session
-from app.models import User, Role
-from flask_user import UserManager
+from app import app
 from flask import request, render_template
-import time, datetime
-
-#setup user manager
-user_manager = UserManager(app, db, User)
-
-# Check if admin and guest User already exists
-if not User.query.filter(User.username == "Admin").all():
-    # If it doesn't the admin user will be created
-    user = User(
-        username = "Admin",
-        password = user_manager.hash_password("Password1")
-    )
-    user.roles.append(Role(name="Admin"))
-    db_session.add(user)
-    db_session.commit()
-
-# Add the guest if enabled and not yet created
-if app.config["GUEST_USER"] == True:
-    if not User.query.filter(User.username == "guest").all():
-        user = User(
-            username = "guest",
-            password = user_manager.hash_password("Passwort")
-            )
-        db_session.add(user)
-        db_session.commit()
-
-# if the config is set to Flase and guest exists it will be deleted
-# otherwise nothing happens
-elif app.config["GUEST_USER"] == False:
-    if not User.query.filter(User.username == "guest").all():
-        pass
-    else:
-        user = User.query.filter_by(username = "guest").first()
-        db_session.delete(user)
-        db_session.commit()
-
-# If sth is in the config that doesn't match, nothing will happen
-else:
-    pass
+from flask_misaka import markdown
 
 # The test function is taking an Arg and look for the html file in
-# the templates directory 
+# the templates directory
 # if there is no .html ending in the template arg it will be added
 
-@app.route("/<template>")
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "GET":
+        return render_template("info.html")
+
+    if request.method == "POST":
+        try:
+            jinja_var = markdown(request.form["jinja_var"])
+            return render_template(request.template_name["template_name"],
+             jinja_var=jinja_var)
+        except:
+            try:
+                jinja_var = markdown(request.form["jinja_var"])
+                print(jinja_var)
+                return render_template("post.html",
+                jinja_var=jinja_var)
+            except:
+                return render_template("post.html")
+
+@app.route("/template")
+def info():
+    return render_template("info.html")
+
+@app.route("/template/<template>")
 def view_template(template):
     if request.method == "GET":
         try:
