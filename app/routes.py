@@ -11,6 +11,8 @@ def index():
     if request.method == "GET":
         return render_template("info.html")
 
+@app.route("/post", methods=["GET", "POST"])
+def post():
     if request.method == "POST":
         try:
             jinja_var = markdown(request.form["jinja_var"])
@@ -20,10 +22,13 @@ def index():
             try:
                 jinja_var = markdown(request.form["jinja_var"])
                 print(jinja_var)
-                return render_template("post.html",
+                return render_template("post_info.html",
                 jinja_var=jinja_var)
             except:
-                return render_template("post.html")
+                try:
+                    return render_template("post_info.html", jinja_var=request.form["jinja_var"])
+                except:
+                    return render_template("post_info.html")
 
 @app.route("/template")
 def info():

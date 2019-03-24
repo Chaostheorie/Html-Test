@@ -9,4 +9,4 @@ class Config(object):
 
     # Run setting
     DEBUG = True
-    PORT = 5000
+    PORT = 5001

@@ -1,0 +1,13 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<p> You have sucessfully send a post requets </p>
+<p> To display variables send via post requets use the "jinja_var" anem attribute </p>
+<p> To use your own template to display post requets use the "template_name" name attribute </p>
+{% if jinja_var is defined %}
+    {{ jinja_var }}
+{% endif %}
+
+<span class="glyphicon glyphicon-search"></span> Search
